@@ -23,8 +23,6 @@ def label_fix(label):
     else:
         return 2
 
-df['Class'] = df['Flow'].apply(label_fix)
-
 def classSwitch(Classes):
 
     log = []
@@ -83,68 +81,6 @@ y = df['Class']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 columns = ['D1', 'D2', 'P1', 'P2', 'dD1', 'dD2', 'dP1', 'dP2']
-
-#%%
-
-time = range(0, 6664)
-flow = df['Flow']
-pressure = df['P1']
-distance = df['D1']
-
-fig = plt.figure(figsize = (8, 6))
-plt.subplot(3,1,1)
-plt.plot(time, flow, 'b') # 'r' is the color red
-plt.xlabel('Time')
-plt.ylabel('Flow')
-plt.title('Flow over Time')
-
-plt.subplot(3,1,2)
-plt.plot(time, pressure, 'b')
-plt.xlabel('Time')
-plt.ylabel('Pressure')
-plt.title('Pressure over Time')
-
-plt.subplot(3,1,2)
-plt.plot(time, distance, 'b')
-plt.xlabel('Time')
-plt.ylabel('Distance')
-plt.title('Distance over Time')
-
-#%%
-
-fig = plt.figure(figsize = (18, 5))
-sns.scatterplot(y = df['Flow'][0:100], x = range(0, 100), hue = df['Class']\
-                [0:100], palette = 'coolwarm')
-
-#%%
-
-fig = plt.figure(figsize = (18, 10))
-plt.subplot(4, 1, 1)
-sns.scatterplot(y = X['D1'][0:650], x = range(0, 650), hue = df['Class']\
-                [0:650], palette = 'coolwarm')
-
-plt.subplot(4, 1, 2)
-sns.scatterplot(y = X['D2'][0:650], x = range(0, 650), hue = df['Class']\
-                [0:650], palette = 'coolwarm')
-
-plt.subplot(4, 1, 3)
-sns.scatterplot(y = X['P1'][0:650], x = range(0, 650), hue = df['Class']\
-                [0:650], palette = 'coolwarm')
-
-plt.subplot(4, 1, 4)
-sns.scatterplot(y = X['P1'][0:650], x = range(0, 650), hue = df['Class']\
-                [0:650], palette = 'coolwarm')
-
-#%%
-
-fig = plt.figure(figsize = (18, 10))
-plt.subplot(2, 1, 1)
-sns.scatterplot(y = X['dD1'][0:650], x = range(0, 650), hue = df['Class']\
-                [0:650], palette = 'coolwarm')
-
-plt.subplot(2, 1, 2)
-sns.scatterplot(y = X['dD2'][0:650], x = range(0, 650), hue = df['Class']\
-                [0:650], palette = 'coolwarm')
 
 #%%
 
