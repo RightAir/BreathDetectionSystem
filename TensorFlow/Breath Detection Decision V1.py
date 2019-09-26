@@ -71,7 +71,6 @@ df['Class'] = df['Flow'].apply(label_fix)
 #%%
     
 # Create the data matrix and normalize data columns
-
 X = df.drop('Class', axis = 1)
 X.drop('Flow', axis = 1, inplace = True)
 
@@ -81,12 +80,14 @@ scaled_features = scaler.transform(X)
 X = pd.DataFrame(scaled_features, columns = X.columns[:])
 
 # Create the classification matrix
-
 y = df['Class']
 
 # Perform train test split
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+y_test.reset_index(inplace = True, drop = True)
+y_train.reset_index(inplace = True, drop = True)
+X_test.reset_index(inplace = True, drop = True)
+X_train.reset_index(inplace = True, drop = True)
 
 columns = ['D1', 'D2', 'P1', 'P2', 'dD1', 'dD2', 'dP1', 'dP2']
 
@@ -106,12 +107,33 @@ model.compile(optimizer = 'adam',
               metrics = ['accuracy'])
 model.summary()
 
-#%%
-
 EPOCHS = 50
 model.fit(X_train, y_train, epochs = EPOCHS)
 
 #%%
+
+predictions = model.predict(X_test)
+
+final_pred = []
+for score in range(0, len(predictions)):
+    final_pred.append(np.argmax(predictions[score]))
+    
+#%%
+
+final_pred = pd.DataFrame(final_pred, index = None, columns = ['Class'])
+final_pred['Class'] = classSwitch(final_pred['Class'])
+
+#%%
+
+y_test = pd.DataFrame(y_test, index = None, columns = ['Class'])
+y_test['Class'] = classSwitch(y_test['Class'])
+
+#%%
+
+# Scoring the model on testing data from same dataset
+
+print(classification_report(y_test, final_pred))
+    
 
 
 
