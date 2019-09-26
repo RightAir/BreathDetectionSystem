@@ -27,11 +27,29 @@ def classSwitch(Classes):
 
     for i in range(0, len(Classes)):
         
-        if i == len(Classes):
+        if i == 0:
             
-            decision.append(Classes[i - 1])
+            if Classes[i] == 2:
+                
+                decision.append(Classes[i + 1])
+                
+            else:
+                
+                decision.append(Classes[i])
+        
+        elif i == len(Classes) - 1:
             
-            break
+            if Classes[i] == 2:
+                
+                decision.append(Classes[i - 3])
+            
+                break
+            
+            else:
+            
+                decision.append(Classes[i])
+                
+                break
         
         elif i > 0:
 
@@ -54,8 +72,9 @@ def classSwitch(Classes):
 
             else:
                 decision.append(Classes[i])
-
+        
         else:
+            
             decision.append(Classes[i])
             
     return decision
@@ -65,7 +84,6 @@ def classSwitch(Classes):
 # Read in data
 
 df = pd.read_csv('fbdh1.csv')
-
 df['Class'] = df['Flow'].apply(label_fix)
 
 #%%
@@ -83,13 +101,11 @@ X = pd.DataFrame(scaled_features, columns = X.columns[:])
 y = df['Class']
 
 # Perform train test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3)
 y_test.reset_index(inplace = True, drop = True)
 y_train.reset_index(inplace = True, drop = True)
 X_test.reset_index(inplace = True, drop = True)
 X_train.reset_index(inplace = True, drop = True)
-
-columns = ['D1', 'D2', 'P1', 'P2', 'dD1', 'dD2', 'dP1', 'dP2']
 
 #%%
 
