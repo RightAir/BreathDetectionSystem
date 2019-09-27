@@ -37,45 +37,39 @@ def classSwitch(Classes):
                 
                 decision.append(Classes[i])
         
-        elif i == len(Classes) - 1:
+        elif i == len(Classes):
             
             if Classes[i] == 2:
                 
                 decision.append(Classes[i - 3])
             
-                break
-            
             else:
             
-                decision.append(Classes[i])
-                
-                break
-        
-        elif i > 0:
-
-            if Classes[i] != Classes[i - 1]:
-                log.append(i)
-
-                if len(log) > 1 and Classes[log[-1]] != Classes[log[-2] - 1] \
-                and Classes[log[-1]] != 2:
-                    decision.append(Classes[i])
-                    
-                elif len(log) > 1 and Classes[log[-1]] == Classes[log[-2] - 1] \
-                and Classes[log[-1]] != 2:
-                    decision.append(Classes[i])
-
-                elif Classes[i] == 2:
-                    decision.append(Classes[i - 1])
-
-            elif Classes[i] == 2:
-                decision.append(Classes[log[-1] - 1])
-
-            else:
                 decision.append(Classes[i])
         
         else:
             
-            decision.append(Classes[i])
+            if Classes[i] != Classes[i - 1]:
+                
+                log.append(i)
+
+                if len(log) > 1 and Classes[log[-1]] != Classes[log[-2] - 1] \
+                and Classes[log[-1]] != 2:
+                    
+                    decision.append(Classes[i])
+                    
+                elif len(log) > 1 and Classes[log[-1]] == Classes[log[-2] - 1] \
+                and Classes[log[-1]] != 2:
+                    
+                    decision.append(Classes[i])
+
+                elif Classes[i] == 2:
+                    
+                    decision.append(Classes[i - 1])
+
+            else:
+                
+                decision.append(Classes[i])
             
     return decision
 
