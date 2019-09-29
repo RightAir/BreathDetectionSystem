@@ -133,54 +133,11 @@ print(classification_report(y_test, final_pred))
 
 def classSwitch(Class):
 
-    log = []
     decision = []
 
     for i in range(0, len(Class)):
         
-        if i == 0:
-            
-            if Class[i] == 1:
-                
-                decision.append(0)
-                
-            else:
-                
-                decision.append(Class[i])
-        
-        elif i == len(Class):
-            
-            if Class[i] == 1:
-                
-                decision.append(Class[i - 3])
-            
-            else:
-            
-                decision.append(Class[i])
-        
-        else:
-            
-            if Class[i] != Class[i - 1]:
-                
-                log.append(i)
 
-                if len(log) > 1 and Class[log[-1]] != Class[log[-2] - 1]\
-                and Class[i] != 1:
-                    
-                    decision.append(Class[i])
-                    
-                elif len(log) > 1 and Class[log[-1]] == Class[log[-2] - 1]\
-                and Class[i] != 1:
-                    
-                    decision.append(Class[i])
-
-                elif Class[i] == 1:
-                    
-                    decision.append(decision[i - 1])
-
-            else:
-                
-                decision.append(Class[i])
             
     return decision
 
