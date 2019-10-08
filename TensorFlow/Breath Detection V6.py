@@ -222,26 +222,26 @@ for score in range(0, len(test_predictions)):
     
 print(classification_report(y_1, final_pred_test))
 
-##%% Perform Class Switch on new dataset
-#
-#test_new_data = classSwitch(y_1.tolist())
-#pred_new_data = classSwitch(final_pred_test)
-#
-#print(classification_report(test_new_data, pred_new_data))
-#
-##$$ Seaborn Plot
-#
-#fig = plt.figure(figsize = (10, 5))
-#plt.subplot(2, 1, 1)
-#plt.title('Ground Truth Class')
-#sns.scatterplot(y = test['Flow'][0:450], x = range(0, 450),\
-#                hue = test_new_data[0:450], palette = 'coolwarm')
-#
-#plt.subplot(2, 1, 2)
-#plt.title('Predictions')
-#sns.scatterplot(y = test['Flow'][0:450], x = range(0, 450),\
-#                hue = pred_new_data[0:450], palette = 'coolwarm')
-#
+#%% Perform Class Switch on new dataset
+
+test_new_data = classSwitch(y_1.tolist())
+pred_new_data = classSwitch(final_pred_test)
+
+print(classification_report(test_new_data, pred_new_data))
+
+#$$ Seaborn Plot
+
+fig = plt.figure(figsize = (10, 5))
+plt.subplot(2, 1, 1)
+plt.title('Ground Truth Class')
+sns.scatterplot(y = test['Flow'][0:450], x = range(0, 450),\
+                hue = test_new_data[0:450], palette = 'coolwarm')
+
+plt.subplot(2, 1, 2)
+plt.title('Predictions')
+sns.scatterplot(y = test['Flow'][0:450], x = range(0, 450),\
+                hue = pred_new_data[0:450], palette = 'coolwarm')
+
 #%% Save model
 
 #keras_file = "Coral_Model.h5"
