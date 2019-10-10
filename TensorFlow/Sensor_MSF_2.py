@@ -51,4 +51,3 @@ class VCNL4010:
         self._device = I2C('/dev/i2c-1')
         self.led_current = 20
         self.frequency = FREQUENCY_390K625
-        self._write_u8(_VCNL4010_INTCONTROL, 0x08)
