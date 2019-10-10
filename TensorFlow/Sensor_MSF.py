@@ -53,7 +53,7 @@ class VCNL4010:
     _BUFFER = bytearray(3)
 
     def __init__(self, address=_VCNL4010_I2CADDR_DEFAULT):
-        self._device = I2C(‘/dev/i2c-1’)
+        self._device = I2C('/dev/i2c-1')
         # Verify chip ID.
         revision = self._read_u8(_VCNL4010_PRODUCTID)
         if (revision & 0xF0) != 0x20:
