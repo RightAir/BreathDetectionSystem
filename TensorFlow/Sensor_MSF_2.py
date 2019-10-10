@@ -5,7 +5,6 @@ import adafruit_bus_device.i2c_device as i2c_device
 
 from periphery import I2C
 
-# pylint: disable=bad-whitespace
 # Internal constants:
 _VCNL4010_I2CADDR_DEFAULT   = const(0x13)
 _VCNL4010_COMMAND           = const(0x80)
@@ -30,24 +29,46 @@ FREQUENCY_3M125    = 3
 FREQUENCY_1M5625   = 2
 FREQUENCY_781K25   = 1
 FREQUENCY_390K625  = 0
-# pylint: enable=bad-whitespace
-
-# Disable pylint's name warning as it causes too much noise.  Suffixes like
-# BE (big-endian) or mA (milli-amps) don't confirm to its conventions--by
-# design (clarity of code and explicit units).  Disable this globally to prevent
-# littering the code with pylint disable and enable and making it less readable.
-# pylint: disable=invalid-name
 
 
 class VCNL4010:
     """Vishay VCNL4010 proximity and ambient light sensor."""
 
-    # Class-level buffer for reading and writing data with the sensor.
-    # This reduces memory allocations but means the code is not re-entrant or
-    # thread safe!
     _BUFFER = bytearray(3)
 
     def __init__(self, address=_VCNL4010_I2CADDR_DEFAULT):
         self._device = I2C('/dev/i2c-1')
         self.led_current = 20
         self.frequency = FREQUENCY_390K625
+
+    def _read_u8(self, address):
+        # Read an 8-bit unsigned value from the specified 8-bit address.
+        with self._device as i2c:
+            self._BUFFER[0] = address & 0xFF
+            # i2c.write_then_readinto(self._BUFFER, self._BUFFER, out_end=1, in_start=1)
+        return self._BUFFER[1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
