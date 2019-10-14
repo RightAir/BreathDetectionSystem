@@ -3,7 +3,7 @@ from micropython import const
 
 import adafruit_bus_device.i2c_device as i2c_device
 
-from periphery import I2C
+from smbus2 import SMBus
 
 
 __version__ = "0.0.0-auto.0"
