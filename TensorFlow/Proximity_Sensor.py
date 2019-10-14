@@ -59,7 +59,7 @@ class VCNL4010:
     def _read_u16BE(self, address):
         with SMBus(1) as self._device:
             read_block = self._device.read_i2c_block_data(_VCNL4010_I2CADDR_DEFAULT, address, 2)
-        return (read_block << 8) | read_block[2]
+        return (read_block[0] << 8) | read_block[1]
 
     @property
     def proximity(self):
