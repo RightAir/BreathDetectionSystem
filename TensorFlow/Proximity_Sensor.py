@@ -80,4 +80,4 @@ class VCNL4010:
         while True:
             result = self._read_u8(_VCNL4010_COMMAND)
             if result & _VCNL4010_PROXIMITYREADY:
-                return self._read_u8(_VCNL4010_PROXIMITYDATA)
+                return self._read_u16BE(_VCNL4010_PROXIMITYDATA)
