@@ -1,0 +1,14 @@
+# LINKS
+
+https://learn.adafruit.com/using-vcnl4010-proximity-sensor/python-circuitpython
+
+https://pypi.org/project/smbus2/
+
+https://github.com/RightAir/BreathDetectionSystem
+
+# IMPORT MODULE AND READ
+
+import Proximity_Sensor
+sensor = Proximity_Sensor.VCNL4010()
+
+sensor.proximity
