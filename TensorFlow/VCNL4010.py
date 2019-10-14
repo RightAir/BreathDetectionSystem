@@ -10,23 +10,23 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_VCNL4010.git"
 
 
 # pylint: disable=bad-whitespace
-# Internal constants:
+# Internal constants (converted to decimal):
 _VCNL4010_I2CADDR_DEFAULT   = const(0x13)
-_VCNL4010_COMMAND           = const(0x80)
-_VCNL4010_PRODUCTID         = const(0x81)
-_VCNL4010_PROXRATE          = const(0x82)
-_VCNL4010_IRLED             = const(0x83)
-_VCNL4010_AMBIENTPARAMETER  = const(0x84)
-_VCNL4010_AMBIENTDATA       = const(0x85)
-_VCNL4010_PROXIMITYDATA     = const(0x87)
-_VCNL4010_INTCONTROL        = const(0x89)
-_VCNL4010_PROXINITYADJUST   = const(0x8A)
-_VCNL4010_INTSTAT           = const(0x8E)
-_VCNL4010_MODTIMING         = const(0x8F)
-_VCNL4010_MEASUREAMBIENT    = const(0x10)
-_VCNL4010_MEASUREPROXIMITY  = const(0x08)
-_VCNL4010_AMBIENTREADY      = const(0x40)
-_VCNL4010_PROXIMITYREADY    = const(0x20)
+_VCNL4010_COMMAND           = const(128)
+_VCNL4010_PRODUCTID         = const(129)
+_VCNL4010_PROXRATE          = const(130)
+_VCNL4010_IRLED             = const(131)
+_VCNL4010_AMBIENTPARAMETER  = const(132)
+_VCNL4010_AMBIENTDATA       = const(133)
+_VCNL4010_PROXIMITYDATA     = const(134)
+_VCNL4010_INTCONTROL        = const(135)
+_VCNL4010_PROXINITYADJUST   = const(138)
+_VCNL4010_INTSTAT           = const(142)
+_VCNL4010_MODTIMING         = const(143)
+_VCNL4010_MEASUREAMBIENT    = const(16)
+_VCNL4010_MEASUREPROXIMITY  = const(8)
+_VCNL4010_AMBIENTREADY      = const(64)
+_VCNL4010_PROXIMITYREADY    = const(32)
 _VCNL4010_AMBIENT_LUX_SCALE = 0.25  # Lux value per 16-bit result value.
 
 # User-facing constants:
@@ -48,13 +48,9 @@ class VCNL4010:
 
     def __init__(self):
         self._device = I2C('/dev/i2c-1')
-        # Verify chip ID.
-        revision = self._read_u8(_VCNL4010_PRODUCTID)
-        if (revision & 0xF0) != 0x20:
-            raise RuntimeError('Failed to find VCNL4010, check wiring!')
         self.led_current = 20
         self.frequency = FREQUENCY_390K625
-        self._write_u8(_VCNL4010_INTCONTROL, 0x08)
+        self._write_u8(_VCNL4010_INTCONTROL, 8)
 
     def _read_u8(self, address):
         # Read an 8-bit unsigned value from the specified 8-bit address.
