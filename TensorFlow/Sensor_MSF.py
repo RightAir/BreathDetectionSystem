@@ -81,7 +81,7 @@ class VCNL4010:
         with self._device as i2c:
             self._BUFFER[0] = address & 0xFF
             self._BUFFER[1] = val & 0xFF
-            # i2c.write(self._BUFFER, end=2)
+            i2c.write(self._BUFFER, end=2)
 
     @property
     def led_current(self):
