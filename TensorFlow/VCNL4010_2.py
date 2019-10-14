@@ -56,14 +56,14 @@ class VCNL4010:
         # Read an 8-bit unsigned value from the specified 8-bit address.
         with self._device as i2c:
             msgs = [I2C.Message(address), I2C.Message([0x00], read = True)]
-            self.transfer(0x13, msgs)
+            self._device.transfer(0x13, msgs)
         return msgs[1].data[0]
 
     def _write_u8(self, address, val):
         # Write an 8-bit unsigned value to the specified 8-bit address.
         with self._device as i2c:
             msgs = [I2C.Message(address), I2C.Message([val])]
-            self.transfer(0x13, msgs)
+            self._device.transfer(0x13, msgs)
 
     @property
     def proximity(self):
