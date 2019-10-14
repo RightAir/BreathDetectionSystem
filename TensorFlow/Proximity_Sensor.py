@@ -6,22 +6,22 @@ __version__ = "0.0.0-auto.0"
 
 # pylint: disable=bad-whitespace
 # Internal constants:
-_VCNL4010_I2CADDR_DEFAULT   = const(19)
-_VCNL4010_COMMAND           = const(128)
-_VCNL4010_PRODUCTID         = const(129)
-_VCNL4010_PROXRATE          = const(130)
-_VCNL4010_IRLED             = const(131)
-_VCNL4010_AMBIENTPARAMETER  = const(132)
-_VCNL4010_AMBIENTDATA       = const(133)
-_VCNL4010_PROXIMITYDATA     = const(135)
-_VCNL4010_INTCONTROL        = const(137)
-_VCNL4010_PROXINITYADJUST   = const(138)
-_VCNL4010_INTSTAT           = const(142)
-_VCNL4010_MODTIMING         = const(143)
-_VCNL4010_MEASUREAMBIENT    = const(16)
-_VCNL4010_MEASUREPROXIMITY  = const(8)
-_VCNL4010_AMBIENTREADY      = const(64)
-_VCNL4010_PROXIMITYREADY    = const(32)
+_VCNL4010_I2CADDR_DEFAULT   = const(0x13)
+_VCNL4010_COMMAND           = const(0x80)
+_VCNL4010_PRODUCTID         = const(0x81)
+_VCNL4010_PROXRATE          = const(0x82)
+_VCNL4010_IRLED             = const(0x83)
+_VCNL4010_AMBIENTPARAMETER  = const(0x84)
+_VCNL4010_AMBIENTDATA       = const(0x85)
+_VCNL4010_PROXIMITYDATA     = const(0x87)
+_VCNL4010_INTCONTROL        = const(0x89)
+_VCNL4010_PROXINITYADJUST   = const(0x8A)
+_VCNL4010_INTSTAT           = const(0x8E)
+_VCNL4010_MODTIMING         = const(0x8F)
+_VCNL4010_MEASUREAMBIENT    = const(0x10)
+_VCNL4010_MEASUREPROXIMITY  = const(0x08)
+_VCNL4010_AMBIENTREADY      = const(0x40)
+_VCNL4010_PROXIMITYREADY    = const(0x20)
 _VCNL4010_AMBIENT_LUX_SCALE = 0.25  # Lux value per 16-bit result value.
 
 # User-facing constants:
@@ -43,22 +43,22 @@ class VCNL4010:
         self._device = SMBus(1)
         self.led_current = 20
         self.frequency = FREQUENCY_390K625
-        self._write_u8(_VCNL4010_INTCONTROL, 8)
+        self._write_u8(_VCNL4010_INTCONTROL, 0x08)
 
     def _read_u8(self, address):
         # Read an 8-bit unsigned value from the specified 8-bit address.
         with SMBus(1) as self._device:
-            read = self._device.read_byte_data(19, address)
+            read = self._device.read_byte_data(_VCNL4010_I2CADDR_DEFAULT, address)
         return read
 
     def _write_u8(self, address, val):
         # Write an 8-bit unsigned value to the specified 8-bit address.
         with SMBus(1) as self._device:
-            self._device.write_byte_data(19, address, val)
+            self._device.write_byte_data(_VCNL4010_I2CADDR_DEFAULT, address, val)
 
     def _read_u16BE(self, address):
         with SMBus(1) as self._device:
-            read_block = self._device.read_i2c_block_data(19, address, 16)
+            read_block = self._device.read_i2c_block_data(_VCNL4010_I2CADDR_DEFAULT, address, 16)
         return read_block
 
     @property
@@ -80,4 +80,4 @@ class VCNL4010:
         while True:
             result = self._read_u8(_VCNL4010_COMMAND)
             if result & _VCNL4010_PROXIMITYREADY:
-                return self._read_u16BE(_VCNL4010_PROXIMITYDATA)
+                return self._read_u8(_VCNL4010_PROXIMITYDATA)
