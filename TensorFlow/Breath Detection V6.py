@@ -37,17 +37,7 @@ from keras.models import load_model
 
 # %% DEFINE HELPER FUNCTIONS
 
-def label_fix(label):
-	"""
-    Generate classifier labels from flow data
-
-    Args:
-        df (pandas DataFrame column): Flow of raw pandas DataFrame
-
-    Returns:
-        df column: New df column with class labels
-    """
-
+def label_fix(label):    
     if label < -7.5:
         return 0
     elif label > 7.5:

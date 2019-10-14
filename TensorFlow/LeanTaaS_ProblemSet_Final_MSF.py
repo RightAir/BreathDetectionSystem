@@ -37,6 +37,106 @@ df = pd.read_sql_query("select * from exchange_transactions;", conn)
 df['created_datetime'] = df['created_datetime'].apply(lambda x: x.split('.')[0])
 df['created_datetime'] = pd.to_datetime(df['created_datetime'])
 
+df['start_time'] = pd.to_datetime(df['start_time'])
+df['end_time'] = pd.to_datetime(df['end_time'])
+
+#%%
+
+def releaseTime_timeBlock(df):
+    """
+    Returns the duration of the scheduling block associated with the original transaction
+
+    Args:
+        df (pd.DataFrame): a DataFrame containing data from the exchange_transactions table of the LeanTaaSTestDB.db
+
+    Returns:
+        releaseTime (list): xxxxx
+        totalReleaseTime (float): xxxxx
+    """
+    
+    releaseTime = []
+    for i in range(0, len(df)):
+        if df['action'][i] == 'RELEASE':
+            releaseTime.append(df['end_time'][i] - df['start_time'][i])
+
+    # calculate the releaseTime in seconds
+    for i in range(0, len(releaseTime)):
+        releaseTime[i] = releaseTime[i].total_seconds()/60
+        
+    totalReleaseTime = sum(releaseTime)
+    return releaseTime, totalReleaseTime
+
+releaseTime_timeBlock, totalReleaseTime_timeBlock = releaseTime_timeBlock(df)
+
+#%%
+
+def transferTime_timeBlock(df):
+    """
+    Returns the duration of the scheduling block associated with the original transaction
+
+    Args:
+        df (pd.DataFrame): a DataFrame containing data from the exchange_transactions table of the LeanTaaSTestDB.db
+
+    Returns:
+        transferTime (list): xxxxx
+        totalTransferTime (float): xxxxx
+    """
+    
+    transferTime = []
+    for i in range(0, len(df)):
+        if df['action'][i] == 'TRANSFER':
+            transferTime.append(df['end_time'][i] - df['start_time'][i])
+
+    # calculate the transferTime in seconds
+    for i in range(0, len(transferTime)):
+        transferTime[i] = transferTime[i].total_seconds()/60
+        
+    totalTransferTime = sum(transferTime)
+    return transferTime, totalTransferTime
+
+transferTime_timeBlock, totalTransferTime_timeBlock = transferTime_timeBlock(df)
+
+#%%
+
+def requestTime_timeBlock(df):
+    """
+    Returns the duration of the scheduling block associated with the original transaction
+
+    Args:
+        df (pd.DataFrame): a DataFrame containing data from the exchange_transactions table of the LeanTaaSTestDB.db
+
+    Returns:
+        requestTime (list): xxxxx
+        totalRequestTime (float): xxxxx
+    """
+    
+    requestTime = []
+    for i in range(0, len(df)):
+        if df['action'][i] == 'REQUEST':
+            requestTime.append(df['end_time'][i] - df['start_time'][i])
+
+    # calculate the requestTime in seconds
+    for i in range(0, len(requestTime)):
+        requestTime[i] = requestTime[i].total_seconds()/60
+        
+    totalRequestTime = sum(requestTime)
+    return requestTime, totalRequestTime
+
+requestTime_timeBlock, totalRequestTime_timeBlock = requestTime_timeBlock(df)
+
+#%% EDA - Plotting sum of time blocks associated with each transaction
+
+resultsTimeBlock = pd.DataFrame([totalRequestTime_timeBlock, totalTransferTime_timeBlock, \
+                        totalReleaseTime_timeBlock], columns = ['Total Time Block Duration (min)'])
+resultsTimeBlock.sort_values('Total Time Block Duration (min)', inplace = True)
+resultsTimeBlock['Action Type'] = ['Transfer', 'Request', 'Release']
+
+fig12 = plt.figure(figsize = (7.5, 5.5))
+plt.title('Total Time Block Duration per Action Type')
+sns.barplot(x = 'Action Type', y = 'Total Time Block Duration (min)', \
+            data = resultsTimeBlock, palette = 'Blues_d')
+fig12.savefig('Total_TimeBlock_Duration.png')
+
 #%% Generate functions to pull release, transfer, and request time
 
 def releaseTime(df):
@@ -69,8 +169,6 @@ def releaseTime(df):
         
     totalReleaseTime = sum(releaseTime)
     return Release_IDs, releaseTime, totalReleaseTime
-
-Release_IDs, releaseTime, totalReleaseTime = releaseTime(df)
 
 def transferTime(df):
     """
@@ -117,8 +215,6 @@ def transferTime(df):
     
     return Transfer_IDs, transferTime, totalTransferTime
 
-Transfer_IDs, transferTime, totalTransferTime = transferTime(df)
-
 def requestTime(df):
     """
     Returns the request time and total transfer time for reach transaction
@@ -164,6 +260,8 @@ def requestTime(df):
         
     return Request_IDs, requestTime, totalRequestTime
 
+Release_IDs, releaseTime, totalReleaseTime = releaseTime(df)
+Transfer_IDs, transferTime, totalTransferTime = transferTime(df)
 Request_IDs, requestTime, totalRequestTime = requestTime(df)
 
 #%% EDA - Plotting total response time for completed and denied transactions
@@ -203,7 +301,7 @@ results.iplot(kind = 'bar', x = 'Action Type',
 
 fig3.savefig('Action_Type_Distribution.png')
 
-#%% Plot total amount of transactions per action type
+#%% EDA - Plot total amount of transactions per action type
 
 fig11 = plt.figure(figsize = (5.5, 5.5))
 plt.title('Total Amount of Transactions')
