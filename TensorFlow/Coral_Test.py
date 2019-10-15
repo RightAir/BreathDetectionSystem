@@ -1,8 +1,14 @@
 """
 WORKING VERSION
+
+Purpose:
+    Performs classification on existing raw data to better understand current
+    model
+    
+Outputs:
+    List of class results produced by TFLite model inference from sample data
 """
 
-import pandas as pd
 import numpy as np
 from tflite_runtime.interpreter import Interpreter
 import time

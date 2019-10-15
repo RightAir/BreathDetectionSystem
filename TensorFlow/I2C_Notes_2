@@ -10,7 +10,7 @@ https://github.com/RightAir/BreathDetectionSystem
 
 sudo i2cdetect -y 1
 
-# IMPORT MODULE AND READ
+# IMPORT MODULE AND READ (make sure you're in the right cd)
 
 import Proximity_Sensor
 sensor = Proximity_Sensor.VCNL4010()
