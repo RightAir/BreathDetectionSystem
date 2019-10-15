@@ -45,21 +45,25 @@ class VCNL4010:
         self.frequency = FREQUENCY_390K625
         self._write_u8(_VCNL4010_INTCONTROL, 0x08)
 
-    def _read_u8(self, address):
+    def read(self, address):
         # Read an 8-bit unsigned value from the specified 8-bit address.
         with SMBus(1) as self._device:
             read = self._device.read_byte_data(_VCNL4010_I2CADDR_DEFAULT, address)
         return read
 
-    def _write_u8(self, address, val):
+    def write(self, address, val):
         # Write an 8-bit unsigned value to the specified 8-bit address.
         with SMBus(1) as self._device:
             self._device.write_byte_data(_VCNL4010_I2CADDR_DEFAULT, address, val)
 
-    def _read_u16BE(self, address):
+    def read_16(self, address):
         with SMBus(1) as self._device:
             read_block = self._device.read_i2c_block_data(_VCNL4010_I2CADDR_DEFAULT, address, 2)
         return (read_block[0] << 8) | read_block[1]
+
+    def read_byte(self, address):
+        with SMBus(1) as self._device:
+            read = self._device.read_byte(address)
 
     @property
     def proximity(self):
@@ -71,13 +75,13 @@ class VCNL4010:
         distance possible, you can only make relative comparisons.
         """
         # Clear interrupt.
-        status = self._read_u8(_VCNL4010_INTSTAT)
+        status = self.read(_VCNL4010_INTSTAT)
         status &= ~0x80
-        self._write_u8(_VCNL4010_INTSTAT, status)
+        self.write(_VCNL4010_INTSTAT, status)
         # Grab a proximity measurement.
-        self._write_u8(_VCNL4010_COMMAND, _VCNL4010_MEASUREPROXIMITY)
+        self.write(_VCNL4010_COMMAND, _VCNL4010_MEASUREPROXIMITY)
         # Wait for result, then read and return the 16-bit value.
         while True:
-            result = self._read_u8(_VCNL4010_COMMAND)
+            result = self.read(_VCNL4010_COMMAND)
             if result & _VCNL4010_PROXIMITYREADY:
                 return self.read_byte(_VCNL4010_PROXIMITYDATA)
