@@ -84,4 +84,4 @@ class VCNL4010:
         while True:
             result = self.read(_VCNL4010_COMMAND)
             if result & _VCNL4010_PROXIMITYREADY:
-                return self.read_byte(_VCNL4010_PROXIMITYDATA)
+                return self.read(_VCNL4010_PROXIMITYDATA)
