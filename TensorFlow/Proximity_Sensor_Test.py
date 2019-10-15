@@ -43,7 +43,7 @@ class VCNL4010:
         self._device = SMBus(1)
         self.led_current = 20
         self.frequency = FREQUENCY_390K625
-        self._write_u8(_VCNL4010_INTCONTROL, 0x08)
+        self.write(_VCNL4010_INTCONTROL, 0x08)
 
     def read(self, address):
         # Read an 8-bit unsigned value from the specified 8-bit address.
