@@ -6,6 +6,10 @@ https://pypi.org/project/smbus2/
 
 https://github.com/RightAir/BreathDetectionSystem
 
+# CHECK DEVICES
+
+sudo i2cdetect -y 1
+
 # IMPORT MODULE AND READ
 
 import Proximity_Sensor
