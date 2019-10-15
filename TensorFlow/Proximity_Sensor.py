@@ -13,8 +13,7 @@ _VCNL4010_PROXRATE          = const(0x82)
 _VCNL4010_IRLED             = const(0x83)
 _VCNL4010_AMBIENTPARAMETER  = const(0x84)
 _VCNL4010_AMBIENTDATA       = const(0x85)
-_VCNL4010_PROXIMITYDATA_H   = const(0x87)
-_VCNL4010_PROXIMITYDATA_L   = const(0x88)
+_VCNL4010_PROXIMITYDATA     = const(0x87)
 _VCNL4010_INTCONTROL        = const(0x89)
 _VCNL4010_PROXINITYADJUST   = const(0x8A)
 _VCNL4010_INTSTAT           = const(0x8E)
@@ -57,12 +56,10 @@ class VCNL4010:
         with SMBus(1) as self._device:
             self._device.write_byte_data(_VCNL4010_I2CADDR_DEFAULT, address, val)
 
-    def _read_u16BE(self):
+    def _read_u16BE(self, address):
         with SMBus(1) as self._device:
-            highbyte = self._device.read_byte_data(_VCNL4010_I2CADDR_DEFAULT, _VCNL4010_PROXIMITYDATA_H)
-            lowbyte = self._device.read_byte_data(_VCNL4010_I2CADDR_DEFAULT, _VCNL4010_PROXIMITYDATA_L)
-            read = (highbyte[0] << 8) + lowbyte[0]
-        return read
+            read_block = self._device.read_i2c_block_data(_VCNL4010_I2CADDR_DEFAULT, address, 2)
+        return (read_block[0] << 8) | read_block[1]
 
     @property
     def proximity(self):
@@ -83,4 +80,4 @@ class VCNL4010:
         while True:
             result = self._read_u8(_VCNL4010_COMMAND)
             if result & _VCNL4010_PROXIMITYREADY:
-                return self._read_u16BE()
+                return self._read_u16BE(_VCNL4010_PROXIMITYDATA)
