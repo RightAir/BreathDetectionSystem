@@ -93,4 +93,4 @@ def main():
     print(duration / len(data[0]))
     return results
     
-main()
+results = main()
