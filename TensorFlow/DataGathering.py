@@ -11,5 +11,5 @@ try:
 		print(Proximity.proximity)
 		time.sleep(1)
 	except KeyboardInterrupt, e:
-		print 'Stopped'
+		print('Stopped')
 		raise
