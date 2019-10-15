@@ -5,7 +5,7 @@ Proximity = Proximity_Sensor.VCNL4010()
 
 Proximity_Data = []
 try:
-	print 'Ctrl-C to end'
+	print('Ctrl-C to end')
 	while(True):
 		Proximity_Data.append(Proximity.proximity)
 		print(Proximity.proximity)
