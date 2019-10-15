@@ -99,6 +99,6 @@ class VCNL4010:
                 message = highbyte + lowbyte
                 message = int(message)
 
-                return highbyte
+                return lowbyte
 
 
