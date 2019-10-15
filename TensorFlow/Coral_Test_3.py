@@ -103,8 +103,6 @@ def main():
     
     for i in range(0, len(data[0])):
         
-
-        
         input_data = data[0][[i]]
         interpreter.set_tensor(input_details[0]['index'], input_data)
         interpreter.invoke()
