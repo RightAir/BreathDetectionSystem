@@ -91,5 +91,6 @@ def main():
     
     duration = time.time() - start
     print(duration / len(data[0]))
+    return results
     
 main()
