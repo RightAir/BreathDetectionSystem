@@ -36,6 +36,16 @@ FREQUENCY_390K625  = 0
 # littering the code with pylint disable and enable and making it less readable.
 # pylint: disable=invalid-name
 
+def binaryToDecimal(binary): 
+    binary1 = binary 
+    decimal, i, n = 0, 0, 0
+    while(binary != 0): 
+        dec = binary % 10
+        decimal = decimal + dec * pow(2, i) 
+        binary = binary//10
+        i += 1
+    return decimal
+
 class VCNL4010:
     """Vishay VCNL4010 proximity and ambient light sensor."""
 
@@ -80,4 +90,17 @@ class VCNL4010:
         while True:
             result = self._read_u8(_VCNL4010_COMMAND)
             if result & _VCNL4010_PROXIMITYREADY:
-                return self._read_u8(0x88)
+                highbyte = self._read_u8(0x87)
+                highbyte = bin(highbyte)
+                highbyte = highbyte.split('b')[1]
+
+                lowbyte = self._read_u8(0x88)
+                lowbyte = bin(lowbyte)
+                lowbyte = lowbyte.splot('b')[1]
+
+                message = highbyte + lowbyte
+                message = int(message)
+
+                return binaryToDecimal(message)
+
+
