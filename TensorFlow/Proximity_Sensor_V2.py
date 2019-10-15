@@ -96,7 +96,7 @@ class VCNL4010:
 
                 lowbyte = self._read_u8(0x88)
                 lowbyte = bin(lowbyte)
-                lowbyte = lowbyte.splot('b')[1]
+                lowbyte = lowbyte.split('b')[1]
 
                 message = highbyte + lowbyte
                 message = int(message)
