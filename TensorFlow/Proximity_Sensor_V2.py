@@ -97,8 +97,7 @@ class VCNL4010:
                 lowbyte = format(lowbyte, '08b')
 
                 message = highbyte + lowbyte
-                message = int(message)
 
-                return lowbyte
+                return message
 
 
