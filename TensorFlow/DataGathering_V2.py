@@ -35,3 +35,9 @@ while(True):
 		print(Current_Class)
 
 return Predictions
+
+"""
+Place Data Acq in its own thread
+Then create a buffer between for holding the data
+Then classify off of the most recent data
+"""
