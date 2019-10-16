@@ -1,14 +1,9 @@
-
 from micropython import const
-
 import adafruit_bus_device.i2c_device as i2c_device
-
 from smbus2 import SMBus
-
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_VCNL4010.git"
-
 
 # pylint: disable=bad-whitespace
 # Internal constants:
@@ -42,7 +37,6 @@ FREQUENCY_390K625  = 0
 # design (clarity of code and explicit units).  Disable this globally to prevent
 # littering the code with pylint disable and enable and making it less readable.
 # pylint: disable=invalid-name
-
 
 class VCNL4010:
     """Vishay VCNL4010 proximity and ambient light sensor."""
