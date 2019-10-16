@@ -15,6 +15,10 @@ QUESTIONS
     Why is the original method writing and then reading from the buffer immediately?
     How can I better replicate the original library with my code?
     Is the read and write from the SMBus library comparable to the read and write from the CircuitPython library?
+    Also questions around conversion from high and low byte to 16 bit data?
+        Seems like all the outputs I'm getting are in decimal values?
+        Is it worth reading from one register (8 bit) then the other, combining into a string then reading then entire
+        value as a 16 bit byte?
 
 APPROACHES - what have I tried that hasn't worked
     Using CircuitPython based libraries
