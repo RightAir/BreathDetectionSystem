@@ -1,3 +1,10 @@
+"""
+
+DESCRIPTION
+    Pulled from the source code of the adafruit I2C library that the sensor library is built off of
+    This is where the write then read into function comes from
+
+"""
 
 def readinto(self, buf, **kwargs):
         """
@@ -11,16 +18,6 @@ def readinto(self, buf, **kwargs):
         :param int end: Index to write up to but not include
         """
         self.i2c.readfrom_into(self.device_address, buf, **kwargs)
-
-def read(self, buf, address, register):
-
-    self._device.read_byte_data(address, register)
-
-    """
-    Does readinto read the value from the register and then write that value into the buffer?
-    What does the buffer actually hold?
-
-    """
 
 def write(self, buf, **kwargs):
         """

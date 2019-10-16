@@ -1,3 +1,32 @@
+"""
+
+DESCRIPTION
+    Current working version of proximity sensor code with custom read and write methods
+
+ISSUES
+    Output range is 2000 - 15000 instead of 0 - 65000
+    Read method
+        Original read method uses buffer to "write then read into" instead of just read from the register
+    16 bit conversion
+        Not sure if the method I'm using is actually reading into 16 bit high and low bytes
+
+QUESTIONS
+    Do I have to use a buffer?
+    Why is the original method writing and then reading from the buffer immediately?
+    How can I better replicate the original library with my code?
+    Is the read and write from the SMBus library comparable to the read and write from the CircuitPython library?
+
+APPROACHES - what have I tried that hasn't worked
+    Using CircuitPython based libraries
+        Need to have a board that is custom built for their application
+
+    Recreating the "write_read" method within the source code with my methods from SMBus
+        Unclear how they write into the buffer, where the buffer is located, how they read from the buffer
+        Note that my current version does not use a buffer
+
+
+"""
+
 from micropython import const
 import adafruit_bus_device.i2c_device as i2c_device
 from smbus2 import SMBus
@@ -39,8 +68,6 @@ FREQUENCY_390K625  = 0
 class VCNL4010:
     """Vishay VCNL4010 proximity and ambient light sensor."""
 
-    _BUFFER = bytearray(3)
-
     def __init__(self):
         self._device = SMBus(1)
         self.led_current = 20
@@ -50,8 +77,6 @@ class VCNL4010:
     def _read_u8(self, address):
         # Read an 8-bit unsigned value from the specified 8-bit address.
         with SMBus(1) as self._device:
-            self._BUFFER[0] = address & 0xFF
-            self._device.write_byte_data(_VCNL4010_I2CADDR_DEFAULT, address, self._BUFFER)
             self._device.read_byte_data(_VCNL4010_I2CADDR_DEFAULT, address)
         return read
 
