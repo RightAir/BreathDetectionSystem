@@ -1,7 +1,7 @@
 clc, clear
 
-flow = readmatrix('flowTraining.csv');
-sensor = readmatrix('training.csv');
+flow = readmatrix('FlowScaled.csv');
+sensor = readmatrix('SensorData.csv');
 
 %%
 
@@ -15,8 +15,9 @@ sensor_7 = sensor(:, 8);
 sensor_8 = sensor(:, 9);
 
 flow_undersampled = resample(flow, length(sensor_1), length(flow));
+flow_undersampled(:,2) = flow_undersampled(:,2)*-1;
 
-range = (1:9000);
+x = linspace(0, 9989, 9989);
 
 figure
-plot(range, flow_undersampled, range, sensor_1)
+plot(x(3000:6000), flow_undersampled(3000:6000, 2), x(3000:6000), sensor_1(3000:6000), 'LineWidth', 1.5)
